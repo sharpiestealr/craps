@@ -1,7 +1,7 @@
 import sys
 from enum import Enum
 
-fichas, bet = 10
+fichas, bet = 10, 11
 d1, d2 = 0
 sumD = d1 + d2
 pointS = sumD
@@ -14,22 +14,28 @@ class phases(Enum):
     APOSTAS = 2
 
 def rolldice (d1, d2):
+    #rola 2 dados random e soma
     d1 = random.range[1, 6, 1]
     d2 = random.range[1, 6, 1]
     sumD = d1 + d2
     return sumD
 
 def bet(fichas):
+    #automated betting system
     phase = 2
-    bet = int(input("Digite quantas fichas você gostaria de apostar, por favor."))
-    if (bet > fichas):
-        print("Aposta inválida. Por favor, aposte uma quantidade de fichas que você possua.")
-        phase = 2
+    while (bet > fichas):
+        bet = int(input("Digite quantas fichas você gostaria de apostar, por favor."))
+        if (bet > fichas):
+            #system security
+            print("Aposta inválida. Por favor, aposte uma quantidade de fichas que você possua.")
     return bet
 
 def rewind(wl):
+    #resets game
     if (wl == 0):
         reset = input("Você perdeu o jogo. Você gostaria de jogar novamente? (sim/não)")
+        if (fichas == 0):
+            fichas = 10
     elif (wl == 1):
         reset = input("Parabéns, você venceu o jogo com ", {1}, " fichas! Você gostaria de jogar novamente? (sim/não)", fichas)
     if (reset == "sim"):
@@ -40,7 +46,9 @@ def rewind(wl):
     return phase
 
 def plb (fichas, sumD):
+    #pass line bet
     if (phase != 0):
+        #guarantee of only during come out
         return null
     else:
         bet(fichas)
