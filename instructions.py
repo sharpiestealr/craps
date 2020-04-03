@@ -37,7 +37,7 @@
         #else, perde aposta
 
 #will need:
-    #var: d1, d2, fichas, sumD, pointS, wl, phase, bet
+    #var: d1, d2, fichas, sumD, pointS, wl, phase, bet, STR reset
         #wl como controle de rodadas
             # 0 loss
             # 1 win
@@ -55,3 +55,5 @@
         #anyC: testa as condições - retorna phase
         #twelve: testa as condições - retorna phase
         #bet: automated betting system - return bet
+        #rewind: resets game, asks if player wants to play again - returns phase
+        #maingame: classe onde de implementam todos os métodos - return wl
