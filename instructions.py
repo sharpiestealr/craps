@@ -45,8 +45,7 @@
         #phase como controle de come out vs point
             # 0 come out
             # 1 point
-            # 2 in progress
-            # 3 betting
+            # 2 betting
     #methods:
         #rolldice: rola 2 dados random e soma - return sumD
         #plb: testa as condições - retorna phase
