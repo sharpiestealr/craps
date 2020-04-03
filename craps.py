@@ -8,6 +8,7 @@
 #SEMPRE informar o jogador sobre o gamestate
     #mostrar possibilidades de apostas e valores
     #podem ser feitas apostas simultâneas de valores e tipos diferentes
+
 #tipos de apostas
     #pass line bet
         #SÓ NO COME OUT
@@ -23,15 +24,29 @@
         #no fim de plb, acaba esta rodada e começa COME OUT nova
     #field
         #em qualquer fase
-        #5, 6, 7 ou 8: loss (perde apostadas e recebe nada)
+        #5, 6, 7 ou 8: perde apostadas e recebe nada
         #3, 4, 9, 10 ou 11: neutro (recebe de volta o que apostou, delta 0)
         #2: dobra as fichas apostadas
         #12: triplica as fichas apostadas
     #any craps
         #em qualquer fase
         #2, 3 ou 12: x7 apostadas
-        #else, loss
+        #else, perde aposta
     #twelve
         #em qualquer fase
         #12: x30 apostadas
-        #else, loss
+        #else, perde aposta
+
+#will need:
+    #var: d1, d2, fichas, sumD, pointS, wl, phase
+        #wl como controle de rodadas
+        #phase como controle de come out vs point
+    #methods:
+        #rolldice: rola 2 dados random e soma - return sumD
+        #plb: testa as condições - retorna phase
+            #point: testa as condições - retorna wl
+        #field: testa as condições - retorna phase
+        #anyC: testa as condições - retorna phase
+        #twelve: testa as condições - retorna phase
+
+def rolldice (d1, d2):
