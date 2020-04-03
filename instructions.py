@@ -45,14 +45,13 @@
         #phase como controle de come out vs point
             # 0 come out
             # 1 point
-            # 2 betting
     #methods:
         #rolldice: rola 2 dados random e soma - return sumD
         #plb: testa as condições - retorna phase
             #point: testa as condições - retorna wl
-        #field: testa as condições - retorna phase
-        #anyC: testa as condições - retorna phase
-        #twelve: testa as condições - retorna phase
+        #field: testa as condições - retorna fichas
+        #anyC: testa as condições - retorna fichas
+        #twelve: testa as condições - retorna fichas
         #bet: automated betting system - return bet
         #rewind: resets game, asks if player wants to play again - returns phase
         #maingame: classe onde de implementam todos os métodos - return wl

@@ -47,7 +47,7 @@ def rewind(wl, fichas, phase):
         sys.exit(0)
     return phase
 
-def plb (phase, bet, fichas, sumD, wl):
+def plb (phase, fichas, sumD, wl):
     #pass line bet
     if (phase != 0):
         #guarantee of only during come out
@@ -83,3 +83,14 @@ def point(phase, sumD, fichas, bet):
         rolldice(d1, d2)
     return wl
 
+def field(sumD, fichas):
+    bet = bet(fichas)
+    if (sumD == 5 or 6 or 7 or 8):
+        fichas = fichas - bet
+    elif(sumD == 2):
+        fichas = fichas + bet
+    elif (sumD == 12):
+        fichas = fichas + 2*bet
+    else:
+        null
+    return fichas
