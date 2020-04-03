@@ -2,22 +2,15 @@ import sys
 from enum import Enum
 
 fichas, bet = 10, 11
-d1, d2 = 0
+d1, d2 = 0, 0
 sumD = d1 + d2
 pointS = sumD
 wl, phase = 2
-fase, apostas, num = 5
+fase, num = 5
 
 class phases(Enum):
     COME_OUT = 0
     POINT = 1
-
-class posBets(Enum):
-    plb = 3
-    field = 0
-    anyC = 2
-    twelve = 1
-    leave = 4
 
 def instructions():
     print("No jogo de Craps, você tem duas possibilidades:")
@@ -188,11 +181,27 @@ if (newb == "sim"):
 rolldice(d1, d2)
 phase = 0
 print("O jogo está na fase ", {1}, ".", phases(phase))
+print("Você atualmente tem ", {1}, " fichas.", fichas)
 
 i = input("Você gostaria de apostar ou sair?")
 if (i == "apostar"):
     print("Pass Line Bet, Field, Any Craps ou Twelve?")
     print("Digite plb, field, anyC ou twelve se você deseja fazer estas apostas.")
     print("Lembrando que é possível fazer mais de uma aposta.")
-    
-        
+    print("Digite um de cada vez.")
+    apostas = [input()]*4
+    count = 0
+    while(count != 4):
+        if (apostas[count] == "plb"):
+            plb(phase, fichas, sumD, wl)
+        elif(apostas[count] == "field"):
+            field(sumD, fichas)
+        elif(apostas[count] == "anyC"):
+            anyC(sumD, fichas)
+        elif(apostas[count] == "twelve"):
+            twelve(sumD, fichas)
+        count+=1
+elif (i == "sair"):
+    leave()
+else:
+    print("Desculpe. Não entedi, pode repetir?")
