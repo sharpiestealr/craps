@@ -55,3 +55,4 @@
         #bet: automated betting system - return bet
         #rewind: resets game, asks if player wants to play again - returns phase
         #maingame: classe onde de implementam todos os métodos - return wl
+
