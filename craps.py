@@ -1,12 +1,13 @@
 import sys
 from enum import Enum
+import random
 
 fichas, bet = 10, 11
 d1, d2 = 0, 0
 sumD = d1 + d2
 pointS = sumD
-wl, phase = 2
-fase, num = 5
+wl, phase = 2, 2
+fase, num = 5, 5
 
 class phases(Enum):
     COME_OUT = 0
@@ -37,7 +38,7 @@ def instructions():
     instr = input("Também existem as apostas. Você gostaria de ler mais sobre elas?")
     if (instr == "sim"):
         betInstr()
-    return void
+    return none
 
 def betInstr():
     print("Caso você queira apostar, você tem 4 opções de apostas:")
@@ -69,12 +70,12 @@ def betInstr():
             print("Esta aposta pode ser feita a qualquer momento durante o jogo.")
             print("Se você acertar a aposta e for 12, você recebe trinta vezes o valor apostado.")
             print("Se você acertar a aposta e for qualquer outro valor, você perde o valor apostado.")
-    return void
+    return none
 
 def rolldice (d1, d2):
     #rola 2 dados random e soma
-    d1 = random.range[1, 6, 1]
-    d2 = random.range[1, 6, 1]
+    d1 = random.randint(1, 6)
+    d2 = random.randint(1, 6) 
     sumD = d1 + d2
     return sumD
 
@@ -96,12 +97,12 @@ def rewind(wl, fichas, phase):
             #set as an if because if scoop, it's possible to cary on with your own chips as in real cassino
             fichas = 10
     elif (wl == 1):
-        reset = input("Parabéns, você venceu o jogo com ", {1}, " fichas! Você gostaria de jogar novamente? (sim/não)", fichas)
+        reset = input("Parabéns, você venceu o jogo com ", {0}, " fichas! Você gostaria de jogar novamente? (sim/não)".format(fichas))
         #winning doesn't reset chips like a cassino as well
     if (reset == "sim"):
         wl = 2
         phase = 0
-        print("Você possui ", {1}, " fichas.", fichas)
+        print("Você possui ", {1}, " fichas.".format(fichas))
     elif (reset == "não" or "nao"):
         sys.exit(0)
     return phase
@@ -112,7 +113,7 @@ def plb (phase, fichas, sumD, wl):
         #guarantee of only during come out
         return phase
     else:
-        print("O jogo está na fase ", {1}, ".", phases(phase))
+        print("O jogo está na fase ", {0}, ".".format(phases(phase)))
         bet = bet(fichas)
         if (sumD == 7 or 11):
             fichas = fichas + bet
@@ -129,7 +130,7 @@ def plb (phase, fichas, sumD, wl):
 
 def point(phase, sumD, fichas, bet):
     #method that organizes point phase
-    print("O jogo está na fase ", {1}, ".", phases(phase))
+    print("O jogo está na fase ", {0}, ".".format(phases(phase)))
     pointS = sumD
     rolldice(d1,d2)
     if (sumD == pointS):
@@ -174,14 +175,14 @@ def leave():
     sys.exit(0)
     return void
 
-newb = input("Bem-vindo ao jogo de Craps. Você já conhece o jogo?")
-if (newb == "sim"):
+#newb = input("Bem-vindo ao jogo de Craps. Você já conhece o jogo? (sim/não)")
+#if (newb == "não" or "nao"):
     instructions()
 
 rolldice(d1, d2)
 phase = 0
-print("O jogo está na fase ", {1}, ".", phases(phase))
-print("Você atualmente tem ", {1}, " fichas.", fichas)
+print("O jogo está na fase ", {0}, ".".format(phases(phase)))
+print("Você atualmente tem ", {0}, " fichas.".format(fichas))
 
 i = input("Você gostaria de apostar ou sair?")
 if (i == "apostar"):
