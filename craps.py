@@ -10,11 +10,10 @@ def instructions():
     print("No jogo de Craps, você tem duas possibilidades:")
     print("Você pode, a qualquer momento, decidir se quer apostar o valor da soma dos dois dados que o computador jogou, ou sair do jogo.")
     print("O jogo tem duas fases: COME OUT e POINT.")
-    instr = input("Você gostaria de ler mais sobre alguma delas? (sim/não)")
-    print(" ")
+    instr = input("Você gostaria de ler mais sobre alguma delas? (sim/não) \n")
     if (instr == "sim"):
         instr = " "
-        num = int(input("Sobre qual você quer saber mais? (1 ou 2, respectivamente)"))
+        num = int(input("Sobre qual você quer saber mais? (1 ou 2, respectivamente)\n"))
         if (num == 1):
             print("FASE COME OUT")
             print("Esta fase começa antes da fase POINT.")
@@ -22,26 +21,24 @@ def instructions():
             print("Ela termina com o Pass Line Bet, um dos tipos de aposta.")
         elif (num == 2):
             print("FASE POINT")
-            print("Durante esta fase é possível fase qualquer aposta exceto o Pass Line Bet.")
+            print("Durante esta fase é possível fazer qualquer aposta exceto o Pass Line Bet.")
             print("Esta fase começa ou não de acordo com o Pass Line Bet.")
             print("Durante esta fase, a soma dos dados torna-se o valor do POINT, e são jogados novos dados, com a mesma aposta inicial do Pass Line Bet.")
             print("Se ambos derem iguais, você vence o jogo, e ganha o valor que apostou em fichas.")
             print("Se a soma nova der igual a 7, você perde o jogo e todas suas fichas.")
             print("Este processo é repetido até que você ganhe, perca ou saia do jogo.")
-    instr = input("Também existem as apostas. Você gostaria de ler mais sobre elas?")
+    instr = input("Também existem as apostas. Você gostaria de ler mais sobre elas?\n")
     if (instr == "sim"):
         betInstr()
-    return none
 
 def betInstr():
     print("Caso você queira apostar, você tem 4 opções de apostas:")
     print("Pass Line Bet, Field, Any Craps, e Twelve.")
     print("Você pode fazer mais de uma aposta ao mesmo tempo, com valores diferentes de fichas.")
     print("Conforme você for jogando, você terá a opção de ler as instruções da aposta que estiver prestes a fazer.")
-    instr = input("Você quer ler sobre alguma aposta agora? (sim/não)")
-    print(" ")
+    instr = input("Você quer ler sobre alguma aposta agora? (sim/não)\n")
     if (instr == "sim"):
-        num = int(input("Sobre qual você quer saber mais? (1 a 4, respectivamente)"))
+        num = int(input("Sobre qual você quer saber mais? (1 a 4, respectivamente)\n"))
         if (num == 1):
             print("PASS LINE BET")
             print("Se você acertar a aposta e for 7 ou 11, você recebe duas vezes o valor apostado.")
@@ -76,7 +73,7 @@ def bet(fichas):
     #automated betting system
     bet = 11
     while (bet > fichas):
-        bet = int(input("Digite quantas fichas você gostaria de apostar, por favor."))
+        bet = int(input("Digite quantas fichas você gostaria de apostar, por favor.\n"))
         if (bet > fichas):
             #system security
             print("Aposta inválida. Por favor, aposte uma quantidade de fichas que você possua.")
@@ -85,20 +82,20 @@ def bet(fichas):
 def rewind(wl, fichas, phase):
     #resets game
     if (wl == 0):
-        reset = input("Você perdeu o jogo. Você gostaria de jogar novamente? (sim/não)")
+        rset = input("Você perdeu o jogo. Você gostaria de jogar novamente? (sim/não)\n")
         if (fichas == 0):
             #resets game in case of loss
             #set as an if because if scoop, it's possible to cary on with your own chips as in real cassino
             fichas = 10
     elif (wl == 1):
-        reset = input("Parabéns, você venceu o jogo com {0} fichas! Você gostaria de jogar novamente? (sim/não)".format(fichas))
+        rset = input("Parabéns, você venceu o jogo com {0} fichas! Você gostaria de jogar novamente? (sim/não)\n".format(fichas))
         #winning doesn't reset chips like a cassino as well
-    if (reset == "sim"):
+    if (rset == "sim"):
         wl = 2
         phase = 0
         print("Você possui {0} fichas.".format(fichas))
     elif (reset == "não" or "nao"):
-        sys.exit(0)
+        sys.exit()
     return phase
 
 def plb (phase, fichas, sumD, wl):
@@ -121,8 +118,9 @@ def plb (phase, fichas, sumD, wl):
             phase = 0
         elif (sumD == 4 or 5 or 6 or 8 or 9 or 10):
             phase = 1
+            point(phase, sumD, fichas, betT)
             #this controls the change of phase into point
-    return phase
+    return fichas
 
 def point(phase, sumD, fichas, betT):
     #method that organizes point phase
@@ -177,8 +175,7 @@ def twelve(sumD, fichas):
     return fichas
 
 def leave():
-    sys.exit(0)
-    return void
+    sys.exit()
 
 
 fichas, betT = 10, 11
@@ -188,16 +185,16 @@ pointS = sumD
 wl, phase = 2, 2
 fase, num = 5, 5
 
-#newb = input("Bem-vindo ao jogo de Craps. Você já conhece o jogo? (sim/não)")
-#if (newb == "não" or "nao"):
-    #instructions()
+newb = input("Bem-vindo ao jogo de Craps. Você já conhece o jogo? (sim/não)\n")
+if (newb == "não" or "nao"):
+    instructions()
 
 sumD = rolldice(d1, d2)
 phase = 0
 print("O jogo está na fase {0}.".format(phases(phase)))
 print("Você atualmente tem  {0} fichas.".format(fichas))
 
-i = input("Você gostaria de apostar ou sair?")
+i = input("Você gostaria de apostar ou sair?\n")
 if (i == "apostar"):
     print("Pass Line Bet, Field, Any Craps ou Twelve?")
     print("Digite plb, field, anyC ou twelve se você deseja fazer estas apostas.")
@@ -213,14 +210,18 @@ if (i == "apostar"):
 
     while(count != 4):
         if (apostas[count] == "plb"):
-            plb(phase, fichas, sumD, wl)
+            fichas = plb(phase, fichas, sumD, wl)
         elif(apostas[count] == "field"):
-            field(sumD, fichas)
-        elif(apostas[count] == "anyC"):
-            anyC(sumD, fichas)
+            fichas = field(sumD, fichas)
+        elif(apostas[count] == "anyC" or "anyc"):
+            fichas = anyC(sumD, fichas)
         elif(apostas[count] == "twelve"):
-            twelve(sumD, fichas)
+            fichas = twelve(sumD, fichas)
         count+=1
-
 else:
     leave()
+
+if (fichas == 0):
+    leave()
+
+rewind(wl, fichas, phase)
