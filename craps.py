@@ -6,6 +6,13 @@ class phases(Enum):
     COME_OUT = 0
     POINT = 1
 
+fochas = 50
+betT = fochas+1
+d1, d2 = 0, 0
+dice = d1 + d2
+pointS = dice
+wl, phase = 2, 2
+
 def instructions():
     print("No jogo de Craps, você tem duas possibilidades:")
     print("Você pode, a qualquer momento, decidir se quer apostar o valor da soma dos dois dados que o computador jogou, ou sair do jogo.")
@@ -71,15 +78,20 @@ def rolldice (d1, d2):
 
 def bet(fichas):
     #automated betting system
-    betonit=1000000000000000000000000000000
-    while (betonit > fichas):
-        betonit = int(input("Digite quantas fichas você gostaria de apostar, por favor.\n"))
-        if (betonit > fichas):
-            #system security
-            print("Aposta inválida. Por favor, aposte uma quantidade de fichas que você possua.")
-    return betonit
+    betonit= fichas + 1
+    print("Você tem {0} fichas.".format(fichas))
+    if (fichas != 0):
+        while (betonit > fichas):
+            betonit = int(input("Digite quantas fichas você gostaria de apostar, por favor.\n"))
+            if (betonit > fichas):
+                #system security
+                print("Aposta inválida. Por favor, aposte uma quantidade de fichas que você possua.")
+        return betonit
+    else:
+        wl = 0
+        rewind(wl, fichas)
 
-def rewind(wl, fichas, phase):
+def rewind(wl, fichas):
     #resets game
     rset = " "
     if (wl == 0):
@@ -89,17 +101,16 @@ def rewind(wl, fichas, phase):
             #set as an if because if scoop, it's possible to cary on with your own chips as in real cassino
             fichas = 10
     elif (wl == 1):
-        rset = input("Parabéns, você venceu o jogo com {0} fichas! Você gostaria de jogar novamente? (sim/não)\n".format(fichas))
+        rset = input("Parabéns, você venceu o jogo com {0} fichas! Você gostaria de jogar novamente? (sim/não)\n".format(fochas))
         #winning doesn't reset chips like a cassino as well
     if (rset == "sim"):
         wl = 2
-        phase = 0
-        print("Você possui {0} fichas.".format(fichas))
+        print("Você possui {0} fichas.".format(fochas))
     elif (rset == "não" or "nao"):
         sys.exit(0)
     return phase
 
-def plb (phase, fichas, sumD, wl):
+def plb (phase, sumD, fichas):
     #pass line bet
     if (phase != 0):
         #guarantee of only during come out
@@ -113,18 +124,18 @@ def plb (phase, fichas, sumD, wl):
             print("Você agora tem {0} fichas." .format(fichas))
             return fichas
         elif (sumD== 2) or (sumD==3) or (sumD==12):
-            fichas=fichas-betT
+            fichas=fochas-betT
             print("Você agora tem {0} fichas." .format(fichas))
             return fichas
         elif (sumD== 4) or (sumD==5) or (sumD==6) or (sumD==8) or (sumD==9) or (sumD==10):
-            phase = 1
-            point(phase, sumD, fichas, betT)
             #this controls the change of phase into point
+            phase = 1
+            point(sumD, fichas, phase)
 
-def point(phase, sumD, fichas, betT):
+def point(dice, fichas, phase):
     #method that organizes point phase
     print("O jogo está na fase {0}.".format(phases(phase)))
-    pointS = sumD
+    pointS = dice
     sumD=rolldice(d1,d2)
     wl=2
     while (wl == 2):
@@ -134,14 +145,14 @@ def point(phase, sumD, fichas, betT):
             wl = 1
             return wl
         elif (sumD == 7):
-            fichas = fichas - betT
+            fichas = 0
             print("Você agora tem {0} fichas." .format(fichas))
             wl = 0
             return wl
         else:
             sumD=rolldice(d1, d2)
 
-def field(sumD, fichas):
+def field(sumD, fichas, phase):
     betT = bet(fichas)
     print("FIELD")
     print("O jogo está na fase {0}.".format(phases(phase)))
@@ -161,8 +172,8 @@ def field(sumD, fichas):
         null
         return fichas
 
-def anyC(sumD, fichas):
-    betT = bet(fichas)
+def anyC(sumD, fichas, phase):
+    betT = bet(fochas)
     print("ANY CRAPS")
     print("O jogo está na fase {0}.".format(phases(phase)))
     if (sumD == 2) or (sumD==3) or (sumD==12):
@@ -174,7 +185,7 @@ def anyC(sumD, fichas):
         print("Você agora tem {0} fichas." .format(fichas))
         return fichas
 
-def twelve(sumD, fichas):
+def twelve(sumD, fichas, phase):
     betT = bet(fichas)
     print("TWELVE")
     print("O jogo está na fase {0}.".format(phases(phase)))
@@ -186,18 +197,6 @@ def twelve(sumD, fichas):
         fichas = fichas - betT
         print("Você agora tem {0} fichas." .format(fichas))
         return fichas
-
-def leave():
-    sys.exit(0)
-    #tbh bc yes
-
-
-fochas = 50
-betT = fochas+1
-d1, d2 = 0, 0
-dice = d1 + d2
-pointS = dice
-wl, phase = 2, 2
 
 newb = input("Bem-vindo ao jogo de Craps. Você já conhece o jogo? (sim/não)\n")
 if (newb != "sim"):
@@ -211,6 +210,10 @@ print("O jogo está na fase {0}.".format(phases(phase)))
 print("Você atualmente tem  {0} fichas.".format(fochas))
 
 i = input("Você gostaria de apostar ou sair?\n")
+
+if (fochas == 0):
+    leave()
+
 if (i == "apostar"):
     print("Pass Line Bet, Field, Any Craps ou Twelve?")
     print("Digite plb, field, anyC ou twelve se você deseja fazer estas apostas.")
@@ -223,22 +226,28 @@ if (i == "apostar"):
     while (count != len(apostas)):
         apostas[count] = input()
         count +=1
-    
+
     count = 0
     while(count != len(apostas)):
         if (apostas[count] == "plb"):
-            fochas = plb(phase, fochas, dice, wl)
+            fochas = plb(phase, dice, fochas)
+            if (fochas == 0):
+                phase = rewind(wl, fochas)
         elif(apostas[count] == "field"):
-            fochas = field(dice, fochas)
+            fochas = field(dice, fochas, phase)
+            if (fochas == 0):
+                phase = rewind(wl, fochas)
         elif(apostas[count] == "anyC" or "anyc"):
-            fochas = anyC(dice, fochas)
+            fochas = anyC(dice, fochas, phase)
+            if (fochas == 0):
+                phase = rewind(wl, fochas)
         elif(apostas[count] == "twelve"):
-            fochas = twelve(dice, fochas)
+            fochas = twelve(dice, fochas, phase)
+            if (fochas == 0):
+                phase = rewind(wl, fochas)
         count+=1
 else:
-    leave()
+ sys.exit(0)   
 
-if (fochas == 0):
-    leave()
+phase=rewind(wl, fochas)
 
-phase=rewind(wl, fochas, phase)
