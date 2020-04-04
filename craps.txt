@@ -103,18 +103,18 @@ def plb (phase, fichas, sumD, wl):
     #pass line bet
     if (phase != 0):
         #guarantee of only during come out
-        return fichas
+        return phase
     else:
         print("PASS LINE BET")
         print("O jogo está na fase {0}.".format(phases(phase)))
         betT = bet(fichas)
-        if (sumD==7) or (sumD==11):
+        if (sumD== 7 or 11):
             fichas=fichas+betT
             print("Você agora tem {0} fichas." .format(fichas))
-        elif (sumD== 2) or (sumD==3) or (sumD==12):
+        elif (sumD== 2 or 3 or 12):
             fichas=fichas-betT
             print("Você agora tem {0} fichas." .format(fichas))
-        elif (sumD== 4) or (sumD==5) or (sumD==6) or (sumD==8) or (sumD==9) or (sumD==10):
+        elif (sumD== 4 or 5 or 6 or 8 or 9 or 10):
             phase = 1
             point(phase, sumD, fichas, betT)
             #this controls the change of phase into point
@@ -141,7 +141,7 @@ def field(sumD, fichas):
     betT = bet(fichas)
     print("FIELD")
     print("O jogo está na fase {0}.".format(phases(phase)))
-    if (sumD == 5) or (sumD==6) or (sumD==7) or (sumD==8):
+    if (sumD == 5 or 6 or 7 or 8):
         fichas = fichas - betT
         print("Você agora tem {0} fichas." .format(fichas))
     elif(sumD == 2):
@@ -158,7 +158,7 @@ def anyC(sumD, fichas):
     betT = bet(fichas)
     print("ANY CRAPS")
     print("O jogo está na fase {0}.".format(phases(phase)))
-    if (sumD == 2) or (sumD==3) or (sumD==12):
+    if (sumD == 2 or 3 or 12):
         fichas = fichas + 7*betT
         print("Você agora tem {0} fichas." .format(fichas))
     else:
@@ -183,8 +183,8 @@ def leave():
     #tbh bc yes
 
 
-fochas = 50
-betT = fochas+1
+fichas = 50
+betT = fichas+1
 d1, d2 = 0, 0
 dice = d1 + d2
 pointS = dice
@@ -199,7 +199,7 @@ else:
 dice = rolldice(d1, d2)
 phase = 0
 print("O jogo está na fase {0}.".format(phases(phase)))
-print("Você atualmente tem  {0} fichas.".format(fochas))
+print("Você atualmente tem  {0} fichas.".format(fichas))
 
 i = input("Você gostaria de apostar ou sair?\n")
 if (i == "apostar"):
@@ -218,18 +218,18 @@ if (i == "apostar"):
     count = 0
     while(count != len(apostas)):
         if (apostas[count] == "plb"):
-            fochas = plb(phase, fochas, dice, wl)
+            fichas = plb(phase, fichas, dice, wl)
         elif(apostas[count] == "field"):
-            fochas = field(dice, fochas)
+            fichas = field(dice, fichas)
         elif(apostas[count] == "anyC" or "anyc"):
-            fochas = anyC(dice, fochas)
+            fichas = anyC(dice, fichas)
         elif(apostas[count] == "twelve"):
-            fochas = twelve(dice, fochas)
+            fichas = twelve(dice, fichas)
         count+=1
 else:
     leave()
 
-if (fochas == 0):
+if (fichas == 0):
     leave()
 
-rewind(wl, fochas, phase)
+rewind(wl, fichas, phase)
