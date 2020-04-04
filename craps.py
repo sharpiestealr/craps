@@ -71,13 +71,13 @@ def rolldice (d1, d2):
 
 def bet(fichas):
     #automated betting system
-    bet = fichas+1
-    while (bet > fichas):
-        bet = int(input("Digite quantas fichas você gostaria de apostar, por favor.\n"))
-        if (bet > fichas):
+    betonit=1000000000000000000000000000000
+    while (betonit > fichas):
+        betonit = int(input("Digite quantas fichas você gostaria de apostar, por favor.\n"))
+        if (betonit > fichas):
             #system security
             print("Aposta inválida. Por favor, aposte uma quantidade de fichas que você possua.")
-    return bet
+    return betonit
 
 def rewind(wl, fichas, phase):
     #resets game
@@ -96,7 +96,7 @@ def rewind(wl, fichas, phase):
         phase = 0
         print("Você possui {0} fichas.".format(fichas))
     elif (rset == "não" or "nao"):
-        sys.exit()
+        sys.exit(0)
     return phase
 
 def plb (phase, fichas, sumD, wl):
@@ -111,31 +111,35 @@ def plb (phase, fichas, sumD, wl):
         if (sumD==7) or (sumD==11):
             fichas=fichas+betT
             print("Você agora tem {0} fichas." .format(fichas))
+            return fichas
         elif (sumD== 2) or (sumD==3) or (sumD==12):
             fichas=fichas-betT
             print("Você agora tem {0} fichas." .format(fichas))
+            return fichas
         elif (sumD== 4) or (sumD==5) or (sumD==6) or (sumD==8) or (sumD==9) or (sumD==10):
             phase = 1
             point(phase, sumD, fichas, betT)
             #this controls the change of phase into point
-    return fichas
 
 def point(phase, sumD, fichas, betT):
     #method that organizes point phase
     print("O jogo está na fase {0}.".format(phases(phase)))
     pointS = sumD
-    rolldice(d1,d2)
-    if (sumD == pointS):
-        fichas = fichas + betT
-        print("Você agora tem {0} fichas." .format(fichas))
-        wl = 1
-    elif (sumD == 7):
-        fichas = fichas - betT
-        print("Você agora tem {0} fichas." .format(fichas))
-        wl = 0
-    else:
-        rolldice(d1, d2)
-    return wl
+    sumD=rolldice(d1,d2)
+    wl=2
+    while (wl == 2):
+        if (sumD == pointS):
+            fichas = fichas + betT
+            print("Você agora tem {0} fichas." .format(fichas))
+            wl = 1
+            return wl
+        elif (sumD == 7):
+            fichas = fichas - betT
+            print("Você agora tem {0} fichas." .format(fichas))
+            wl = 0
+            return wl
+        else:
+            sumD=rolldice(d1, d2)
 
 def field(sumD, fichas):
     betT = bet(fichas)
@@ -144,15 +148,18 @@ def field(sumD, fichas):
     if (sumD == 5) or (sumD==6) or (sumD==7) or (sumD==8):
         fichas = fichas - betT
         print("Você agora tem {0} fichas." .format(fichas))
+        return fichas
     elif(sumD == 2):
         fichas = fichas + 2*betT
         print("Você agora tem {0} fichas." .format(fichas))
+        return fichas
     elif (sumD == 12):
         fichas = fichas + 3*betT
         print("Você agora tem {0} fichas." .format(fichas))
+        return fichas
     else:
         null
-    return fichas
+        return fichas
 
 def anyC(sumD, fichas):
     betT = bet(fichas)
@@ -161,10 +168,11 @@ def anyC(sumD, fichas):
     if (sumD == 2) or (sumD==3) or (sumD==12):
         fichas = fichas + 7*betT
         print("Você agora tem {0} fichas." .format(fichas))
+        return fichas
     else:
         fichas = fichas - betT
         print("Você agora tem {0} fichas." .format(fichas))
-    return fichas
+        return fichas
 
 def twelve(sumD, fichas):
     betT = bet(fichas)
@@ -173,10 +181,11 @@ def twelve(sumD, fichas):
     if (sumD == 12):
         fichas = fichas + 30*betT
         print("Você agora tem {0} fichas." .format(fichas))
+        return fichas
     else:
         fichas = fichas - betT
         print("Você agora tem {0} fichas." .format(fichas))
-    return fichas
+        return fichas
 
 def leave():
     sys.exit(0)
@@ -232,4 +241,4 @@ else:
 if (fochas == 0):
     leave()
 
-rewind(wl, fochas, phase)
+phase=rewind(wl, fochas, phase)
